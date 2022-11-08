@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/provider/name_provider.dart';
 import '../style/style.dart';
 
-class ItemListPerson extends StatelessWidget {
+class ItemListPerson extends ConsumerWidget {
   final String image;
   final String name;
   final String email;
 
-  ItemListPerson(
+  const ItemListPerson(
       {super.key,
       required this.image,
       required this.name,
       required this.email});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        ref.read(personChooseProvider.notifier).state = name;
+        Navigator.pop(context);
+      },
       leading: CircleAvatar(backgroundImage: NetworkImage(image, scale: 49)),
       title: Text(
         name,

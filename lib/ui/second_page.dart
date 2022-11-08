@@ -45,7 +45,7 @@ class SecondPage extends ConsumerWidget {
                         ?.merge(subTitleStyle)),
                 Expanded(
                     child: Center(
-                        child: Text(TextString.selectedUserName,
+                        child: Text(ref.watch(personChooseProvider),
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5
