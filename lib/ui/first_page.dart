@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:suitmedia_intern/common/style/color_theme.dart';
+import 'package:suitmedia_intern/data/provider/name_provider.dart';
+import 'package:suitmedia_intern/utils/checker.dart';
 import 'package:suitmedia_intern/utils/text_string.dart';
 
 import '../common/style/style.dart';
 
-class FirstPage extends StatefulWidget {
+class FirstPage extends ConsumerStatefulWidget {
   const FirstPage({super.key});
 
   @override
-  State<FirstPage> createState() => _FirstPageState();
+  ConsumerState<FirstPage> createState() => _FirstPageState();
 }
 
-class _FirstPageState extends State<FirstPage> {
-  final nameController = TextEditingController();
-  final palindromeController = TextEditingController();
+class _FirstPageState extends ConsumerState<FirstPage> {
+  var nameController = TextEditingController();
+  var palindromeController = TextEditingController();
 
   @override
   void dispose() {
@@ -118,7 +121,27 @@ class _FirstPageState extends State<FirstPage> {
                         foregroundColor: whiteColor,
                         backgroundColor: bluePrimaryColor, // foreground
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (palindromeController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Silahkan mengisi teks yang mau di uji')));
+                        } else {
+                          bool isPalindrome =
+                              Checker.isPalindrome(palindromeController.text);
+
+                          if (isPalindrome) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    '${palindromeController.text} adalah Palindrom')));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    '${palindromeController.text} adalah bukan Palindrom')));
+                          }
+                        }
+                      },
                       child: Text(TextString.check,
                           style: Theme.of(context)
                               .textTheme
@@ -126,7 +149,7 @@ class _FirstPageState extends State<FirstPage> {
                               ?.merge(buttonStyle)),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
                   SizedBox(
@@ -142,6 +165,11 @@ class _FirstPageState extends State<FirstPage> {
                         backgroundColor: bluePrimaryColor, // foreground
                       ),
                       onPressed: () {
+                        ref.read(nameProvider.notifier).state =
+                            nameController.text.isEmpty
+                                ? 'No Name'
+                                : nameController.text;
+
                         Navigator.pushNamed(context, TextString.secondPage);
                       },
                       child: Text(TextString.next,

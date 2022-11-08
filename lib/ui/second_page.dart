@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suitmedia_intern/data/provider/name_provider.dart';
 
 import 'package:suitmedia_intern/utils/text_string.dart';
 import '../common/style/color_theme.dart';
 import '../common/style/style.dart';
 
-class SecondPage extends StatelessWidget {
+class SecondPage extends ConsumerWidget {
   const SecondPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -36,7 +38,7 @@ class SecondPage extends StatelessWidget {
                 Text(TextString.welcome,
                     style:
                         Theme.of(context).textTheme.caption?.merge(titleStyle)),
-                Text(TextString.chooseAUser,
+                Text(ref.watch(nameProvider),
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1

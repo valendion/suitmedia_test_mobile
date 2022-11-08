@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suitmedia_intern/common/style/color_theme.dart';
 import 'package:suitmedia_intern/utils/routes.dart';
 import 'common/style/style.dart';
 import 'utils/text_string.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
